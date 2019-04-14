@@ -1,4 +1,4 @@
-package dsp
+package gdsp
 
 import (
 	"math"
@@ -23,17 +23,4 @@ func GaussianLowpass(input Vector, cutoff float64) Vector {
 
 	lp := IFFT(VMulEC(Y, gauss)).Real()
 	return lp
-}
-
-// IIR performs an IIR filter on input with the given response.
-func IIR(input Vector, response float64) Vector {
-	output := make([]float64, len(input), len(input))
-	for i, v := range input {
-		if i == 0 {
-			output[i] = v
-		} else {
-			output[i] = output[i-1]*(1.0-response) + v*response
-		}
-	}
-	return output
 }

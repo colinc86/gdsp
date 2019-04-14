@@ -1,4 +1,4 @@
-package dsp
+package gdsp
 
 // Filtic creates the initial condition vector for the filter function. x (optional)
 // and y contain the last input and output from the filter function. a and b are

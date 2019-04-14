@@ -1,4 +1,4 @@
-package dsp
+package gdsp
 
 // Filter performs a 1-dimensional digital filter.
 func Filter(b Vector, a Vector, x Vector, z Vector) (Vector, Vector) {
@@ -46,4 +46,17 @@ func FilterC(b VectorComplex, a VectorComplex, x VectorComplex, z VectorComplex)
 	}
 
 	return y, zOut[:len(zOut)-1]
+}
+
+// IIR performs an IIR filter on input with the given response.
+func IIR(input Vector, response float64) Vector {
+	output := make([]float64, len(input), len(input))
+	for i, v := range input {
+		if i == 0 {
+			output[i] = v
+		} else {
+			output[i] = output[i-1]*(1.0-response) + v*response
+		}
+	}
+	return output
 }

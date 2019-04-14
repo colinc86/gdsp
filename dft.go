@@ -1,11 +1,13 @@
-package dsp
+package gdsp
 
 import (
 	"math"
 	"math/cmplx"
 )
 
-// DFT performs a discrete Fourier transform on input and returns the result.
+// DFT performs a discrete Fourier transform on the complex-valued input vector
+// and returns the result. Pass true for the forward parameter to perform a forward
+// transform and false for an inverse transform.
 func DFT(input VectorComplex, forward bool) VectorComplex {
 	N := len(input)
 	theta := 2.0 * math.Pi / float64(N)
@@ -33,7 +35,8 @@ func DFT(input VectorComplex, forward bool) VectorComplex {
 	return output
 }
 
-// FFT performs a DFT using the Cooley-Turkey FFT algorithm.
+// FFT performs a discrete Fourier transform on the complex-valued input vector
+// using the Cooley-Turkey FFT algorithm. For an inverse FFT, see the IFFT function.
 func FFT(input VectorComplex) VectorComplex {
 	if len(input) == 1 {
 		return input
@@ -64,7 +67,9 @@ func FFT(input VectorComplex) VectorComplex {
 	return append(evenDFT, oddDFT...)
 }
 
-// IFFT performs an inverse FFT using the Cooley-Turkey FFT algorithm.
+// IFFT performs an inverse discrete Fourier transform on the complex-valued input
+// vector using the Cooley-Turkey FFT algorithm. For a forward FFT, see the FFT
+// function.
 func IFFT(input VectorComplex) VectorComplex {
 	inputConjugate := input.Conj()
 	fft := FFT(inputConjugate)

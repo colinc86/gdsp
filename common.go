@@ -1,4 +1,4 @@
-package dsp
+package gdsp
 
 import (
 	"math"

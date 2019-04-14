@@ -1,6 +1,6 @@
-package dsp
+package gdsp
 
-// Interpolate interpolates a signal using a DFT.
+// Interpolate interpolates a real-valued signal using a discrete Fourier transform.
 func Interpolate(input Vector, upsampleMultiple int) Vector {
 	if upsampleMultiple < 2 || len(input)%2 != 0 {
 		return input
@@ -17,7 +17,7 @@ func Interpolate(input Vector, upsampleMultiple int) Vector {
 	return VSMulC(IFFT(paddedFFT), ComplexRI(upsampleMultiple)).Real()
 }
 
-// InterpolateC interpolates a signal using a DFT.
+// InterpolateC interpolates a complex-valued signal using a discrete Fourier transform.
 func InterpolateC(input VectorComplex, upsampleMultiple int) VectorComplex {
 	if upsampleMultiple < 2 || len(input)%2 != 0 {
 		return input

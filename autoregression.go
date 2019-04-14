@@ -1,11 +1,13 @@
-package dsp
+package gdsp
 
 import (
 	"fmt"
 	"math/cmplx"
 )
 
-// Arburg autoregressive power spectral density estimate using Burg's method.
+// Arburg finds the autoregressive parameters for a model with order p using Burg's
+// method on the real-valued input vector, x, and returns the parameters along with
+// the estimated variance.
 func Arburg(x Vector, p int) (Vector, float64) {
 	if len(x) < p+1 {
 		fmt.Printf("Vector length %d should be greater than p, %d.", len(x), p)
@@ -41,7 +43,9 @@ func Arburg(x Vector, p int) (Vector, float64) {
 	return a, E
 }
 
-// ArburgC autoregressive power spectral density estimate using Burg's method.
+// ArburgC finds the autoregressive parameters for a model with order p using Burg's
+// method on the complex-valued input vector, x, and returns the parameters along
+// with the estimated variance.
 func ArburgC(x VectorComplex, p int) (VectorComplex, complex128) {
 	if len(x) < p+1 {
 		fmt.Printf("Vector length %d should be greater than p, %d.", len(x), p)
