@@ -2,7 +2,7 @@ package gdsp
 
 import "testing"
 
-func TestMakeVector_1(t *testing.T) {
+func TestMakeVectorC(t *testing.T) {
 	n := 5
 	r := 1.0
 	i := 1.0

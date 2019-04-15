@@ -2,7 +2,7 @@
 A digital signal processing library for Go.
 
 ## Features
-gDSP is a light-weight vector library with a focus on digital signal processing. It is not meant to replace other more robust linear algebra packages. Please contribute if there is something you'd like to see in this package!
+gDSP is a light-weight vector library with a focus on digital signal processing. It is not meant to replace other more robust linear algebra packages.
 
 ### Functions
 - [x] Autoregressive model parameters using Burg's method

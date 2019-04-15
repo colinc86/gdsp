@@ -1,3 +1,4 @@
+// Package gdsp provides the types and functions necessary to process digital signals.
 package gdsp
 
 import (
