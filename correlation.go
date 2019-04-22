@@ -21,7 +21,7 @@ func XCorr(u Vector, v Vector) Vector {
 	return XCorrC(u.ToComplex(), v.ToComplex()).Real()
 }
 
-// XCorrC performs cross-correlation on real-valued vectors u and v. The output
+// XCorrC performs cross-correlation on complex-valued vectors u and v. The output
 // vector has length len(v) - len(u) + 1.
 func XCorrC(u VectorComplex, v VectorComplex) VectorComplex {
 	mLen := 2.0 * MaxI(len(u), len(v))

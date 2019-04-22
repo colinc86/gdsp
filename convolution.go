@@ -6,7 +6,7 @@ func Conv(u Vector, v Vector) Vector {
 	return ConvC(u.ToComplex(), v.ToComplex()).Real()
 }
 
-// ConvC performs convolution on real-valued vectors u and v. The output
+// ConvC performs convolution on complex-valued vectors u and v. The output
 // vector has length len(v) - len(u) + 1.
 func ConvC(u VectorComplex, v VectorComplex) VectorComplex {
 	mLen := 2.0 * MaxI(len(u), len(v))
