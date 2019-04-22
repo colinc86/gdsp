@@ -337,6 +337,38 @@ func (v VectorComplex) IsZero() bool {
 	return true
 }
 
+// IsCloseToVector determines if the values of the vector are within the given
+// tolerance of vector u.
+func (v Vector) IsCloseToVector(u Vector, tolerance float64) bool {
+	if len(v) != len(u) {
+		return false
+	}
+
+	for i := 0; i < len(v); i++ {
+		if !IsClose(v[i], u[i], tolerance) {
+			return false
+		}
+	}
+
+	return true
+}
+
+// IsCloseToVectorC determines if the values of the vector are within the given
+// tolerance of vector u.
+func (v VectorComplex) IsCloseToVectorC(u VectorComplex, tolerance float64) bool {
+	if len(v) != len(u) {
+		return false
+	}
+
+	for i := 0; i < len(v); i++ {
+		if !IsCloseC(v[i], u[i], tolerance) {
+			return false
+		}
+	}
+
+	return true
+}
+
 // Reversed reverses the vector.
 func (v Vector) Reversed() Vector {
 	rv := MakeVector(0.0, len(v))

@@ -1,23 +1,66 @@
 package gdsp
 
-import "testing"
+import (
+	"testing"
+)
 
 func TestXCorr1(t *testing.T) {
-	u := []float64{1.0, 2.0, 3.0, 2.0, 1.0}
-	v := []float64{1.0, 2.0, 3.0, 2.0, 1.0}
-	c := XCorr(u, v)
+	u := MakeVectorFromArray([]float64{1.0, 2.0, 3.0})
+	v := MakeVectorFromArray([]float64{1.0})
+	xCorr := XCorr(u, v)
 
-	if len(c) != 1 {
+	if !xCorr.IsCloseToVector(u, 0.00001) {
 		t.Fail()
 	}
 }
 
 func TestXCorr2(t *testing.T) {
-	u := []float64{2.0 / 3.0, 1.0, 2.0 / 3.0}
-	v := []float64{1.0 / 3.0, 2.0 / 3.0, 1.0, 2.0 / 3.0, 1.0 / 3.0}
-	c := XCorr(u, v)
+	u := MakeVectorFromArray([]float64{1.0, 2.0, 3.0})
+	v := MakeVectorFromArray([]float64{1.0, 2.0})
+	ex := MakeVectorFromArray([]float64{5.0, 8.0, 3.0, 0.0})
+	xCorr := XCorr(u, v)
 
-	if len(c) != 3 {
+	if !xCorr.IsCloseToVector(ex, 0.00001) {
+		t.Fail()
+	}
+}
+
+func TestXCorr3(t *testing.T) {
+	u := MakeVectorFromArray([]float64{1.0, 2.0, 3.0})
+	v := MakeVectorFromArray([]float64{1.0, 2.0, 3.0})
+	ex := MakeVectorFromArray([]float64{14.0, 8.0, 3.0, 0.0, 3.0})
+	conv := XCorr(u, v)
+
+	if !conv.IsCloseToVector(ex, 0.00001) {
+		t.Fail()
+	}
+}
+
+func TestACorr1(t *testing.T) {
+	v := MakeVectorFromArray([]float64{1.0})
+	aCorr := ACorr(v)
+
+	if !aCorr.IsCloseToVector(v, 0.00001) {
+		t.Fail()
+	}
+}
+
+func TestACorr2(t *testing.T) {
+	v := MakeVectorFromArray([]float64{1.0, 2.0})
+	ex := MakeVectorFromArray([]float64{5.0, 2.0, 0.0})
+	aCorr := ACorr(v)
+
+	if !aCorr.IsCloseToVector(ex, 0.00001) {
+		t.Fail()
+	}
+}
+
+func TestACorr3(t *testing.T) {
+	v := MakeVectorFromArray([]float64{1.0, 2.0, 3.0})
+	ex := MakeVectorFromArray([]float64{14.0, 8.0, 3.0, 0.0, 3.0})
+	aCorr := ACorr(v)
+
+	if !aCorr.IsCloseToVector(ex, 0.00001) {
 		t.Fail()
 	}
 }

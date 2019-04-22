@@ -6,8 +6,8 @@ gDSP is a light-weight vector library with a focus on digital signal processing.
 
 ### Functions
 - [x] Autoregressive model parameters using Burg's method
-- [ ] Autocorrelation
-- [ ] Convolution
+- [x] Autocorrelation
+- [x] Convolution
 - [x] Cross-correlation
 - [x] Discrete Fourier transform
 - [x] Fast Fourier transform
