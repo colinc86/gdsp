@@ -31,3 +31,14 @@ func IsClose(a float64, b float64, tolerance float64) bool {
 func IsCloseC(a complex128, b complex128, tolerance float64) bool {
 	return math.Abs(real(a)-real(b)) < tolerance && math.Abs(imag(a)-imag(b)) < tolerance
 }
+
+// MinI returns the minimum integer in a set of integers.
+func MinI(n ...int) int {
+	min := math.MaxInt64
+	for _, v := range n {
+		if v < min {
+			min = v
+		}
+	}
+	return min
+}
