@@ -2,6 +2,9 @@ package gdsp
 
 import (
 	"math/cmplx"
+	"runtime"
+
+	"github.com/colinc86/parallel"
 )
 
 // Vector types represent a real-valued vector.
@@ -119,9 +122,12 @@ func (v VectorComplex) Conj() VectorComplex {
 // v[i] *= u[i]
 func VMulE(u Vector, v Vector) Vector {
 	vc := v.Copy()
-	for i := 0; i < len(vc); i++ {
+
+	p := parallel.NewFixedProcess(runtime.NumCPU())
+	p.Execute(len(vc), func(i int) {
 		vc[i] *= u[i]
-	}
+	})
+
 	return vc
 }
 
