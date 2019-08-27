@@ -3,6 +3,9 @@ package gdsp
 import (
 	"math"
 	"math/cmplx"
+	"runtime"
+
+	"github.com/colinc86/parallel"
 )
 
 // DFT performs a discrete Fourier transform on the complex-valued input vector
@@ -18,19 +21,22 @@ func DFT(input VectorComplex, forward bool) VectorComplex {
 	}
 
 	output := MakeVectorComplex(0.0, N)
-	for i := 0; i < N; i++ {
+	p := parallel.NewFixedProcess(runtime.NumCPU())
+	p.Execute(N, func(i int) {
+		sum := complex(0.0, 0.0)
 		for j := 0; j < N; j++ {
 			x := float64(i * j)
 			realP := math.Cos(theta * x)
 			imagP := coeff * math.Sin(theta*x)
 
-			output[i] += input[j] * complex(realP, imagP)
+			sum += input[j] * complex(realP, imagP)
 		}
+		output[i] = sum
 
 		if !forward {
 			output[i] /= complex(float64(N), 0.0)
 		}
-	}
+	})
 
 	return output
 }
@@ -58,10 +64,12 @@ func FFT(input VectorComplex) VectorComplex {
 
 	for k := 0; k < len(input)/2; k++ {
 		x := float64(k) / float64(len(input))
-		t := evenDFT[k]
 		ec := cmplx.Exp(complex(0.0, -2.0*math.Pi*x))
-		evenDFT[k] = t + ec*oddDFT[k]
-		oddDFT[k] = t - ec*oddDFT[k]
+
+		t := evenDFT[k]
+		o := oddDFT[k]
+		evenDFT[k] = t + ec*o
+		oddDFT[k] = t - ec*o
 	}
 
 	return append(evenDFT, oddDFT...)

@@ -1,5 +1,11 @@
 package gdsp
 
+import (
+	"runtime"
+
+	"github.com/colinc86/parallel"
+)
+
 // Filtic creates the initial condition vector for the filter function. x (optional)
 // and y contain the last input and output from the filter function. a and b are
 // the filter coefficients.
@@ -31,10 +37,11 @@ func Filtic(b Vector, a Vector, y Vector, x Vector) Vector {
 		yf := yc.SubVector(0, na-1)
 		f, _ := Filter(bf, af, yf, nil)
 
-		for i := 0; i < len(f); i++ {
+		p := parallel.NewFixedProcess(runtime.NumCPU())
+		p.Execute(len(f), func(i int) {
 			vIndex := na - 2 - i
 			vinit[vIndex] = f[i]
-		}
+		})
 	}
 
 	if nb-1 > 0 {
@@ -43,10 +50,11 @@ func Filtic(b Vector, a Vector, y Vector, x Vector) Vector {
 		xf := xc.SubVector(0, nb-1)
 		f, _ := Filter(bf, af, xf, nil)
 
-		for i := 0; i < len(f); i++ {
+		p := parallel.NewFixedProcess(runtime.NumCPU())
+		p.Execute(len(f), func(i int) {
 			vIndex := nb - 2 - i
 			vx[vIndex] = f[i]
-		}
+		})
 	}
 
 	return VAdd(vinit, vx)
@@ -83,10 +91,11 @@ func FilticC(b VectorComplex, a VectorComplex, y VectorComplex, x VectorComplex)
 		yf := yc.SubVector(0, na-1)
 		f, _ := FilterC(bf, af, yf, nil)
 
-		for i := 0; i < len(f); i++ {
+		p := parallel.NewFixedProcess(runtime.NumCPU())
+		p.Execute(len(f), func(i int) {
 			vIndex := na - 2 - i
 			vinit[vIndex] = f[i]
-		}
+		})
 	}
 
 	if nb-1 > 0 {
@@ -95,10 +104,11 @@ func FilticC(b VectorComplex, a VectorComplex, y VectorComplex, x VectorComplex)
 		xf := xc.SubVector(0, nb-1)
 		f, _ := FilterC(bf, af, xf, nil)
 
-		for i := 0; i < len(f); i++ {
+		p := parallel.NewFixedProcess(runtime.NumCPU())
+		p.Execute(len(f), func(i int) {
 			vIndex := nb - 2 - i
 			vx[vIndex] = f[i]
-		}
+		})
 	}
 
 	return VAddC(vinit, vx)

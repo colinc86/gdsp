@@ -44,7 +44,7 @@ func TestDFT(t *testing.T) {
 
 	for i := 0; i < len(dft); i++ {
 		if cmplx.Abs(dft[i]-fft[i]) > 0.000001 {
-			t.Fail()
+			t.Errorf("DFT value %f at index %d is not near FFT value of %f.", dft[i], i, fft[i])
 		}
 	}
 }
