@@ -1,4 +1,6 @@
 # gDSP
+[![GoDoc](https://godoc.org/github.com/colinc86/gdsp?status.svg)](https://godoc.org/github.com/colinc86/gdsp) [![Build Status](https://img.shields.io/endpoint.svg?url=https%3A%2F%2Factions-badge.atrox.dev%2Fcolinc86%2Fgdsp%2Fbadge&style=flat)](https://actions-badge.atrox.dev/colinc86/gdsp/goto)
+
 A digital signal processing library for Go.
 
 ## Features
