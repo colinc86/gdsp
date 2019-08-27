@@ -42,9 +42,10 @@ func MakeMatrixComplex(repeating complex128, rows int, columns int) MatrixComple
 // MakeVector creates a new vector.
 func MakeVector(repeating float64, count int) Vector {
 	v := make(Vector, count, count)
-	for i := range v {
+	p := parallel.NewFixedProcess(runtime.NumCPU())
+	p.Execute(len(v), func(i int) {
 		v[i] = repeating
-	}
+	})
 	return v
 }
 
@@ -56,9 +57,10 @@ func MakeVectorFromArray(input []float64) Vector {
 // MakeVectorComplex creates a new vector.
 func MakeVectorComplex(repeating complex128, count int) VectorComplex {
 	v := make(VectorComplex, count, count)
-	for i := range v {
+	p := parallel.NewFixedProcess(runtime.NumCPU())
+	p.Execute(len(v), func(i int) {
 		v[i] = repeating
-	}
+	})
 	return v
 }
 
@@ -70,9 +72,10 @@ func MakeVectorComplexFromArray(input []complex128) VectorComplex {
 // MakeVectorComplexFromSplit creates a new vector from real and imaginary parts.
 func MakeVectorComplexFromSplit(real Vector, imag Vector) VectorComplex {
 	v := MakeVectorComplex(0.0, len(real))
-	for i := 0; i < len(real); i++ {
+	p := parallel.NewFixedProcess(runtime.NumCPU())
+	p.Execute(len(real), func(i int) {
 		v[i] = complex(real[i], imag[i])
-	}
+	})
 	return v
 }
 
@@ -81,36 +84,40 @@ func MakeVectorComplexFromSplit(real Vector, imag Vector) VectorComplex {
 // ToComplex converts a real-valued vector to a complex-valued vector.
 func (v Vector) ToComplex() VectorComplex {
 	vc := MakeVectorComplex(0.0, len(v))
-	for i, r := range v {
-		vc[i] = complex(r, 0.0)
-	}
+	p := parallel.NewFixedProcess(runtime.NumCPU())
+	p.Execute(len(v), func(i int) {
+		vc[i] = complex(v[i], 0.0)
+	})
 	return vc
 }
 
 // Real returns the real componenets of the vector.
 func (v VectorComplex) Real() Vector {
 	rp := MakeVector(0.0, len(v))
-	for i, c := range v {
-		rp[i] = real(c)
-	}
+	p := parallel.NewFixedProcess(runtime.NumCPU())
+	p.Execute(len(v), func(i int) {
+		rp[i] = real(v[i])
+	})
 	return rp
 }
 
 // Imag returns the imaginary components of the vector.
 func (v VectorComplex) Imag() Vector {
 	rp := MakeVector(0.0, len(v))
-	for i, c := range v {
-		rp[i] = imag(c)
-	}
+	p := parallel.NewFixedProcess(runtime.NumCPU())
+	p.Execute(len(v), func(i int) {
+		rp[i] = imag(v[i])
+	})
 	return rp
 }
 
 // Conj returns conjugate vector.
 func (v VectorComplex) Conj() VectorComplex {
 	vc := v.Copy()
-	for i, c := range vc {
-		vc[i] = cmplx.Conj(c)
-	}
+	p := parallel.NewFixedProcess(runtime.NumCPU())
+	p.Execute(len(v), func(i int) {
+		vc[i] = cmplx.Conj(v[i])
+	})
 	return vc
 }
 
@@ -122,12 +129,10 @@ func (v VectorComplex) Conj() VectorComplex {
 // v[i] *= u[i]
 func VMulE(u Vector, v Vector) Vector {
 	vc := v.Copy()
-
 	p := parallel.NewFixedProcess(runtime.NumCPU())
 	p.Execute(len(vc), func(i int) {
 		vc[i] *= u[i]
 	})
-
 	return vc
 }
 
@@ -137,9 +142,10 @@ func VMulE(u Vector, v Vector) Vector {
 // v[i] *= u[i]
 func VMulEC(u VectorComplex, v VectorComplex) VectorComplex {
 	vc := v.Copy()
-	for i := 0; i < len(vc); i++ {
+	p := parallel.NewFixedProcess(runtime.NumCPU())
+	p.Execute(len(v), func(i int) {
 		vc[i] *= u[i]
-	}
+	})
 	return vc
 }
 
@@ -172,9 +178,10 @@ func VMulESumC(u VectorComplex, v VectorComplex) complex128 {
 // v[i] += u[i]
 func VAdd(u Vector, v Vector) Vector {
 	vc := v.Copy()
-	for i := 0; i < len(vc); i++ {
+	p := parallel.NewFixedProcess(runtime.NumCPU())
+	p.Execute(len(vc), func(i int) {
 		vc[i] += u[i]
-	}
+	})
 	return vc
 }
 
@@ -183,9 +190,10 @@ func VAdd(u Vector, v Vector) Vector {
 // v[i] += u[i]
 func VAddC(u VectorComplex, v VectorComplex) VectorComplex {
 	vc := v.Copy()
-	for i := 0; i < len(vc); i++ {
+	p := parallel.NewFixedProcess(runtime.NumCPU())
+	p.Execute(len(vc), func(i int) {
 		vc[i] += u[i]
-	}
+	})
 	return vc
 }
 
@@ -194,9 +202,10 @@ func VAddC(u VectorComplex, v VectorComplex) VectorComplex {
 // v[i] -= u[i]
 func VSub(u Vector, v Vector) Vector {
 	vc := u.Copy()
-	for i := 0; i < len(vc); i++ {
+	p := parallel.NewFixedProcess(runtime.NumCPU())
+	p.Execute(len(vc), func(i int) {
 		vc[i] -= v[i]
-	}
+	})
 	return vc
 }
 
@@ -205,9 +214,10 @@ func VSub(u Vector, v Vector) Vector {
 // v[i] -= u[i]
 func VSubC(u VectorComplex, v VectorComplex) VectorComplex {
 	vc := u.Copy()
-	for i := 0; i < len(vc); i++ {
+	p := parallel.NewFixedProcess(runtime.NumCPU())
+	p.Execute(len(vc), func(i int) {
 		vc[i] -= v[i]
-	}
+	})
 	return vc
 }
 
@@ -218,9 +228,10 @@ func VSubC(u VectorComplex, v VectorComplex) VectorComplex {
 // v[i] *= s
 func VSMul(v Vector, s float64) Vector {
 	vc := v.Copy()
-	for i := 0; i < len(vc); i++ {
+	p := parallel.NewFixedProcess(runtime.NumCPU())
+	p.Execute(len(vc), func(i int) {
 		vc[i] *= s
-	}
+	})
 	return vc
 }
 
@@ -229,9 +240,10 @@ func VSMul(v Vector, s float64) Vector {
 // v[i] *= s
 func VSMulC(v VectorComplex, s complex128) VectorComplex {
 	vc := v.Copy()
-	for i := 0; i < len(vc); i++ {
+	p := parallel.NewFixedProcess(runtime.NumCPU())
+	p.Execute(len(vc), func(i int) {
 		vc[i] *= s
-	}
+	})
 	return vc
 }
 
@@ -240,9 +252,10 @@ func VSMulC(v VectorComplex, s complex128) VectorComplex {
 // v[i] /= s
 func VSDiv(v Vector, s float64) Vector {
 	vc := v.Copy()
-	for i := 0; i < len(vc); i++ {
+	p := parallel.NewFixedProcess(runtime.NumCPU())
+	p.Execute(len(vc), func(i int) {
 		vc[i] /= s
-	}
+	})
 	return vc
 }
 
@@ -251,9 +264,10 @@ func VSDiv(v Vector, s float64) Vector {
 // v[i] /= s
 func VSDivC(v VectorComplex, s complex128) VectorComplex {
 	vc := v.Copy()
-	for i := 0; i < len(vc); i++ {
+	p := parallel.NewFixedProcess(runtime.NumCPU())
+	p.Execute(len(vc), func(i int) {
 		vc[i] /= s
-	}
+	})
 	return vc
 }
 
