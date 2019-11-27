@@ -1,3 +1,5 @@
+github.com/colinc86/parallel v0.0.0-20191127035659-9567fc3db40b h1:4K4wUz1qAPw1Wz1evJiUABENUpnMfDCebjWBSPdkYV8=
+github.com/colinc86/parallel v0.0.0-20191127035659-9567fc3db40b/go.mod h1:S1P2y8SYilnFLQ9CU39lqlvXlvVcKzGeBbSHAoHHH3g=
 github.com/colinc86/parallel v0.2.1 h1:lfFsY93h0OoZ3bN1QVu0JUjcu5UgkCPlpYVwK4vpyxo=
 github.com/colinc86/parallel v0.2.1/go.mod h1:+zlClaqDlCV6khxolRw9ZqBA2MyKvd8Ml1lF+QJNIDk=
 github.com/colinc86/probes v0.1.2 h1:8Xv1XO1RRaRYcWbTr6MQijm6lgmErqYMInUWfSKaehE=
