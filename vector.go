@@ -10,31 +10,7 @@ type Vector []float64
 // VectorComplex types represent a complex-valued vector.
 type VectorComplex []complex128
 
-// Matrix types represent an array of vectors.
-type Matrix []Vector
-
-// MatrixComplex types represent an array of complex vectors.
-type MatrixComplex []VectorComplex
-
 // MARK: Constructors
-
-// MakeMatrix creates and returns a new matrix.
-func MakeMatrix(repeating float64, rows int, columns int) Matrix {
-	m := make([]Vector, 0, 0)
-	for i := 0; i < rows; i++ {
-		m = append(m, MakeVector(repeating, columns))
-	}
-	return m
-}
-
-// MakeMatrixComplex creates and returns a new matrix.
-func MakeMatrixComplex(repeating complex128, rows int, columns int) MatrixComplex {
-	m := make([]VectorComplex, 0, 0)
-	for i := 0; i < rows; i++ {
-		m = append(m, MakeVectorComplex(repeating, columns))
-	}
-	return m
-}
 
 // MakeVector creates a new vector.
 func MakeVector(repeating float64, count int) Vector {
