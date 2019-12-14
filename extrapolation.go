@@ -25,3 +25,16 @@ func ExtrapolateC(input VectorComplex, count int) VectorComplex {
 	ye, _ := FilterC(b, a, MakeVectorComplex(0.0, count+10), z)
 	return ye
 }
+
+// FrequencyExtrapolate extrapolates a signal by extrapolating its frequency component signals.
+func FrequencyExtrapolate(input Vector, count int, windowLength int, windowType WindowType) (Vector, Vector) {
+	s := Spectrogram(input, windowLength, windowType)
+	sc := s.FlipOrderComplex()
+	var esc MatrixComplex
+	for _, s := range sc {
+		esc = append(esc, append(s, ExtrapolateC(s, count+windowLength/2)...))
+	}
+	es := esc.FlipOrderComplex()
+	extrapolatedInput := InverseSpectrogram(es, windowType)
+	return extrapolatedInput[len(extrapolatedInput)-count-windowLength/2 : len(extrapolatedInput)-count], extrapolatedInput[len(extrapolatedInput)-count:]
+}

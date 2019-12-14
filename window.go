@@ -5,6 +5,42 @@ import (
 	"math/cmplx"
 )
 
+// WindowType values represent a window function and its inverse.
+type WindowType int
+
+// Types of windows.
+const (
+	WindowTypeHann WindowType = iota + 1
+	WindowTypeHamming
+	WindowTypeNuttal
+)
+
+// Window applies a window function given by windowType to the input signal.
+func Window(windowType WindowType, input VectorComplex) VectorComplex {
+	switch windowType {
+	case WindowTypeHann:
+		return Hann(input)
+	case WindowTypeHamming:
+		return Hamming(input)
+	case WindowTypeNuttal:
+		return Nuttal(input)
+	}
+	return nil
+}
+
+// InverseWindow applies an inverse window function given by windowType to the input signal.
+func InverseWindow(windowType WindowType, input VectorComplex) VectorComplex {
+	switch windowType {
+	case WindowTypeHann:
+		return Hann(input)
+	case WindowTypeHamming:
+		return Hamming(input)
+	case WindowTypeNuttal:
+		return Nuttal(input)
+	}
+	return nil
+}
+
 // Hann performs Hann windowing on the input vector.
 func Hann(input VectorComplex) VectorComplex {
 	vh := input.Copy()
