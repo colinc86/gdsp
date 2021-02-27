@@ -1,6 +1,7 @@
 package gdsp
 
 import (
+	"math"
 	"math/cmplx"
 )
 
@@ -229,6 +230,24 @@ func VSDivC(v VectorComplex, s complex128) VectorComplex {
 }
 
 // MARK: Single Vector Functions
+
+// VAbs sets each element of the vector to its absolute value.
+func VAbs(v Vector) Vector {
+	vc := v.Copy()
+	for i := 0; i < len(vc); i++ {
+		vc[i] = math.Abs(vc[i])
+	}
+	return vc
+}
+
+// VMagC sets each element of the vector to its magnitude.
+func VMagC(v VectorComplex) Vector {
+	vc := MakeVector(0.0, len(v))
+	for i := 0; i < len(vc); i++ {
+		vc[i] = cmplx.Abs(v[i])
+	}
+	return vc
+}
 
 // VESum adds together the elements of v and returns the result.
 func VESum(v Vector) float64 {
