@@ -35,5 +35,5 @@ func XCorrC(u VectorComplex, v VectorComplex) VectorComplex {
 	zvfft := FFT(zv)
 
 	uvfft := VMulEC(zufft, zvfft.Conj())
-	return IFFT(uvfft).SubVector(0, len(u)+len(v)-1)
+	return IFFT(uvfft).SubVector(0, len(v)-len(u)+1)
 }
