@@ -26,7 +26,7 @@ func Mins(v Vector, length int) (Vector, Vector) {
 	var mins, minIndices Vector
 	for i := 0; i < len(v)-length; i++ {
 		minValue, minIndex := Min(v[i : i+length])
-		if maxIndex == 0 || maxIndex == length-1 {
+		if minIndex == 0 || minIndex == length-1 {
 			continue
 		}
 		minIndex += i
