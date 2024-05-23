@@ -26,6 +26,9 @@ func Mins(v Vector, length int) (Vector, Vector) {
 	var mins, minIndices Vector
 	for i := 0; i < len(v)-length; i++ {
 		minValue, minIndex := Min(v[i : i+length])
+		if maxIndex == 0 || maxIndex == length-1 {
+			continue
+		}
 		minIndex += i
 
 		found := false
@@ -65,6 +68,9 @@ func Maxs(v Vector, length int) (Vector, Vector) {
 	var maxs, maxIndices Vector
 	for i := 0; i < len(v)-length; i++ {
 		maxValue, maxIndex := Max(v[i : i+length])
+		if maxIndex == 0 || maxIndex == length-1 {
+			continue
+		}
 		maxIndex += i
 
 		found := false
