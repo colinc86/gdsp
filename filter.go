@@ -50,7 +50,7 @@ func FilterC(b VectorComplex, a VectorComplex, x VectorComplex, z VectorComplex)
 
 // IIR performs an IIR filter on input with the given response.
 func IIR(input Vector, response float64) Vector {
-	output := make([]float64, len(input), len(input))
+	output := make([]float64, len(input))
 	for i, v := range input {
 		if i == 0 {
 			output[i] = v

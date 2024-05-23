@@ -15,7 +15,7 @@ type VectorComplex []complex128
 
 // MakeVector creates a new vector.
 func MakeVector(repeating float64, count int) Vector {
-	v := make(Vector, count, count)
+	v := make(Vector, count)
 	for i := range v {
 		v[i] = repeating
 	}
@@ -29,7 +29,7 @@ func MakeVectorFromArray(input []float64) Vector {
 
 // MakeVectorComplex creates a new vector.
 func MakeVectorComplex(repeating complex128, count int) VectorComplex {
-	v := make(VectorComplex, count, count)
+	v := make(VectorComplex, count)
 	for i := range v {
 		v[i] = repeating
 	}
@@ -225,6 +225,50 @@ func VSDivC(v VectorComplex, s complex128) VectorComplex {
 	vc := v.Copy()
 	for i := 0; i < len(vc); i++ {
 		vc[i] /= s
+	}
+	return vc
+}
+
+// VSAdd performs vector-scaler addition and returns the result.
+//
+// v[i] += s
+func VSAdd(v Vector, s float64) Vector {
+	vc := v.Copy()
+	for i := 0; i < len(vc); i++ {
+		vc[i] += s
+	}
+	return vc
+}
+
+// VSAddC performs vector-scaler addition and returns the result.
+//
+// v[i] += s
+func VSAddC(v VectorComplex, s complex128) VectorComplex {
+	vc := v.Copy()
+	for i := 0; i < len(vc); i++ {
+		vc[i] += s
+	}
+	return vc
+}
+
+// VSSub performs vector-scaler subtraction and returns the result.
+//
+// v[i] -= s
+func VSSub(v Vector, s float64) Vector {
+	vc := v.Copy()
+	for i := 0; i < len(vc); i++ {
+		vc[i] -= s
+	}
+	return vc
+}
+
+// VSSubC performs vector-scaler subtraction and returns the result.
+//
+// v[i] -= s
+func VSSubC(v VectorComplex, s complex128) VectorComplex {
+	vc := v.Copy()
+	for i := 0; i < len(vc); i++ {
+		vc[i] -= s
 	}
 	return vc
 }

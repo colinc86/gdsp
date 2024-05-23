@@ -10,7 +10,7 @@ type MatrixComplex []VectorComplex
 
 // MakeMatrix creates and returns a new matrix in row major order.
 func MakeMatrix(repeating float64, rows int, columns int) Matrix {
-	m := make([]Vector, 0, 0)
+	m := make([]Vector, 0)
 	for i := 0; i < rows; i++ {
 		m = append(m, MakeVector(repeating, columns))
 	}
@@ -19,7 +19,7 @@ func MakeMatrix(repeating float64, rows int, columns int) Matrix {
 
 // MakeMatrixComplex creates and returns a new matrix in row major order.
 func MakeMatrixComplex(repeating complex128, rows int, columns int) MatrixComplex {
-	m := make([]VectorComplex, 0, 0)
+	m := make([]VectorComplex, 0)
 	for i := 0; i < rows; i++ {
 		m = append(m, MakeVectorComplex(repeating, columns))
 	}
