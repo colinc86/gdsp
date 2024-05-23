@@ -6,33 +6,79 @@ import (
 )
 
 // Min returns the minimum value from a vector.
-func Min(v Vector) float64 {
+func Min(v Vector) (float64, int) {
 	if len(v) == 0 {
-		return 0.0
+		return 0.0, -1
 	}
 
 	minValue := math.MaxFloat64
-	for _, r := range v {
+	minIndex := -1
+	for i, r := range v {
 		if r < minValue {
 			minValue = r
+			minIndex = i
 		}
 	}
-	return minValue
+	return minValue, minIndex
+}
+
+func Mins(v Vector, length int) (Vector, Vector) {
+	var mins, minIndices Vector
+	for i := 0; i < len(v)-length; i++ {
+		minValue, minIndex := Min(v[i : i+length])
+
+		found := false
+		for j := range minIndices {
+			if minIndex == j {
+				found = true
+				break
+			}
+		}
+
+		if !found {
+			mins = append(mins, minValue)
+			minIndices = append(minIndices, float64(minIndex))
+		}
+	}
+	return mins, minIndices
 }
 
 // Max returns the maximum value from a vector.
-func Max(v Vector) float64 {
+func Max(v Vector) (float64, int) {
 	if len(v) == 0 {
-		return 0.0
+		return 0.0, -1
 	}
 
 	maxValue := -math.MaxFloat64
-	for _, r := range v {
+	maxIndex := -1
+	for i, r := range v {
 		if r > maxValue {
 			maxValue = r
+			maxIndex = i
 		}
 	}
-	return maxValue
+	return maxValue, maxIndex
+}
+
+func Maxs(v Vector, length int) (Vector, Vector) {
+	var maxs, maxIndices Vector
+	for i := 0; i < len(v)-length; i++ {
+		maxValue, maxIndex := Max(v[i : i+length])
+
+		found := false
+		for j := range maxIndices {
+			if maxIndex == j {
+				found = true
+				break
+			}
+		}
+
+		if !found {
+			maxs = append(maxs, maxValue)
+			maxIndices = append(maxIndices, float64(maxIndex))
+		}
+	}
+	return maxs, maxIndices
 }
 
 // MinReal returns the minimum value from a slice of floats.
@@ -137,8 +183,8 @@ func Normalize(v Vector) Vector {
 
 // NormalizeStrict normalizes a vector using the max and min elements.
 func NormalizeStrict(v Vector) (Vector, []float64) {
-	maxValue := Max(v)
-	minValue := Min(v)
+	maxValue, _ := Max(v)
+	minValue, _ := Min(v)
 	difference := maxValue - minValue
 
 	nv := MakeVector(0.0, len(v))
