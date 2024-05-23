@@ -29,8 +29,8 @@ func Mins(v Vector, length int) (Vector, Vector) {
 		minIndex += i
 
 		found := false
-		for j := range minIndices {
-			if minIndex == j {
+		for _, j := range minIndices {
+			if float64(minIndex) == j {
 				found = true
 				break
 			}
@@ -68,8 +68,8 @@ func Maxs(v Vector, length int) (Vector, Vector) {
 		maxIndex += i
 
 		found := false
-		for j := range maxIndices {
-			if maxIndex == j {
+		for _, j := range maxIndices {
+			if float64(maxIndex) == j {
 				found = true
 				break
 			}
